@@ -1,29 +1,32 @@
 "use strict";
 
-let accSelect = document.querySelectorAll(".accordion-button");
+const panes = document.querySelectorAll('.accordion-collapse');
+const accBtns = document.querySelectorAll('.accordion-button');
 
-accSelect.forEach((acc) => {
-  //console.log(acc);
-  acc.addEventListener("click", function () {
-    let self = this;
-    if (!self.classList.contains("collapsed", "show")) {
-      let oldTab = document.querySelector("button");
-      let oldPane = document.querySelector(oldTab.dataset.bsTarget);
-      let newPane = document.querySelector(self.dataset.bsTarget);
+accBtns.forEach((acc) => {
+    acc.addEventListener("click", function () {
+        const btn = this;
+        const pane = document.getElementById(btn.dataset.bsTarget);
 
-      oldTab.classList.add("collapsed");
-      oldPane.classList.remove("show");
-      newPane.classList.add("show");
-      self.classList.add("collapsed");
-    } else {
-      let oldTab = document.querySelector("button");
-      let oldPane = document.querySelector(oldTab.dataset.bsTarget);
-      let newPane = document.querySelector(self.dataset.bsTarget);
+        panes.forEach(pane => {
+            if (pane.id != btn.dataset.bsTarget) {
+                pane.classList.remove("show");
+            }
+        });
 
-      oldTab.classList.remove("collapsed");
-      oldPane.classList.add("show");
-      newPane.classList.remove("show");
-      self.classList.remove("collapsed");
-    }
-  });
+        accBtns.forEach(button => {
+            if (button.dataset.bsTarget != btn.dataset.bsTarget) {
+                button.classList.remove("collapsed");
+            }
+        });
+
+        if (pane.classList.contains('show')) {
+            pane.classList.remove("show");
+            btn.classList.remove('collapsed');
+        }
+        else {
+            pane.classList.add("show");
+            btn.classList.add('collapsed');
+        }
+    });
 });
